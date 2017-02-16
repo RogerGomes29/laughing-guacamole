@@ -4,7 +4,8 @@
 
 #### Working with the Jackal
 
-Task for the Project
+#####Task for the Project
+
 0. [ ] Connect to a real Jackal and drive it using rviz
 
 0. [ ] Integrate the LM291 with Jackal in rviz
@@ -17,7 +18,7 @@ Task for the Project
 
 0. [ ] Use of *GPS* **Extra**
 
-#### Team:
+#### Team starring:
 
 *Deep*
 
