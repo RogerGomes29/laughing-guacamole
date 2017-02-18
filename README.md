@@ -18,6 +18,8 @@
 
 0. [ ] Use of *GPS* **Extra**
 
+0. [x] Driving Jackal (use: sudo apt-get install ros-indigo-jackal-simulator ros-indigo-jackal-desktop)
+
 #### Team starring:
 
 *Deep*
