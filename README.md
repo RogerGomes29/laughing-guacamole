@@ -27,3 +27,18 @@
 *Sabari*
 
 *Roger*
+
+#####Setting Up the Workspace
+```
+$ cd catkin_ws/src
+$ catkin_init_workspace
+$ cd ..
+$ git submodule init
+$ git submodule update
+```
+Finally, the project can be built as follow:
+
+```
+$ catkin_make
+$ source devel/setup.bash
+```
