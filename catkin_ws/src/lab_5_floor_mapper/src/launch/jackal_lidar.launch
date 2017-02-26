@@ -1,0 +1,17 @@
+<launch>
+  <!--<include file="$(find jackal_description)/launch/description.launch">
+    <arg name="config" value="base" />
+  </include>
+
+  <include file="$(find jackal_control)/launch/control.launch" />
+
+   <param name="use_gui" value="true"/>
+   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+   <node name="model_rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/model.rviz" />-->
+
+   <!-- Sicktoolbox Wrapper -->
+   <param name="sicklms/port" value="/dev/ttyS0" />
+   <param name="sicklms/baud" value="38400" />
+   <node name="sicklms" pkg="sicktoolbox_wrapper" />
+
+</launch>
