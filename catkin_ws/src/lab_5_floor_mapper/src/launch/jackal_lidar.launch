@@ -12,6 +12,6 @@
    <!-- Sicktoolbox Wrapper -->
    <param name="sicklms/port" value="/dev/ttyS0" />
    <param name="sicklms/baud" value="38400" />
-   <node name="sicklms" pkg="sicktoolbox_wrapper" />
+   <node name="sicklms" type="sicklms" pkg="sicktoolbox_wrapper" />
 
 </launch>
