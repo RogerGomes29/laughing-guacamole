@@ -1,0 +1,25 @@
+<!--
+    EE5900: Intro to Robotics
+    Lab 5: Working with Jackal
+
+    Group 1:
+      Roger Gomes (Team Lead)
+      Sabari Manohar
+      Deep Doshi
+
+    Description:
+      This Launch files runs the SLAM Gmapping algorithm for which it uses the recorded bag file with /scan and /tf messages
+      The rosbag replay incovcation is handled by the replay_rosbay.py file.
+
+-->
+<launch>
+
+  <param name="use_sim_time" value="true"/>
+
+  <!-- Run gmapping to create a map of the scanned floor recorded through rosbag-->
+  <node pkg="gmapping" type="slam_gmapping" name="mapper" args="scan:=/scan" />
+
+  <!-- Script for replaying the rosbag-->
+  <node pkg="lab_5_floor_mapper" type="replay_rosbag.py" name="rosbag_replay" required="true" />
+
+</launch>
