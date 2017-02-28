@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #Credits: Credits for the intial version of the python script reused for this project goes to Project 3 Group 2 members. James, Derek and Akhil.
-# ha ha
+
 #EE5900: Intro to Robotics
 #Lab 5: Working with Jackal
 
@@ -54,7 +54,7 @@ side_delta  = 15
 side_thresh = 1.55
 
 # increment value at each time step
-rate_step = 0.10
+rate_step = 0.15
 
 # linear accleration and decceleration
 def smooth_vel(vel_before, vel_final, t_before, t_final, rate):
@@ -71,6 +71,7 @@ def toAng(rad):
     ang = rad * 180 / 3.14
     return ang
 
+
 # Averaged Sum of scan points function
 def getSum(start, end, data):
     angSum = float(0.0)
@@ -85,6 +86,7 @@ def getSum(start, end, data):
 
     return angSum
 
+
 # Averaged Sum of scan points function
 def getMin(start, end, data):
     angSum = float(0.0)
@@ -97,6 +99,7 @@ def getMin(start, end, data):
         index = index + 1
 
     return minScan
+
 
 # define callback for twist
 def Callback(data):
@@ -113,6 +116,7 @@ def Callback(data):
     leftAve  = getMin(leftAng, leftAng + sideOffset, data)
     rightAve = getMin(rightAng - sideOffset, rightAng, data)
     frontAve = getMin(zeroAng - zeroOffset, zeroAng + zeroOffset, data)
+
 
     # Too close in front, turn left and slowly back up
     if frontAve < 1 :
@@ -144,7 +148,7 @@ def Callback(data):
 
 # define setup and run routine
 def setup():
-    global start_time, rate_step, ramp_timeL
+    global start_time
     start_time = time.time()
 
     # create node for listening to twist messages
@@ -164,14 +168,9 @@ def setup():
     randLin = float(0.0)
     randAng = float(0.0)
 
-    # initial values for twist msgs to zero
-    twist_init = Twist()
-    randLin_n = twist_init.linear.x
-    randAng_n = twist_init.angular.z
     # loop
     while not time.time()-start_time>60:
-        # get a new time stamp
-        ramp_timeF = time.time()
+
         # generate random movement mapping at random interval
         if count < countLimit :
             count = count + 1
@@ -181,25 +180,11 @@ def setup():
             randLin = random.uniform(linear_min,linear_max)
             randAng = random.uniform(angular_min,angular_max)
 
-        # pass linear and angular velocity values to the smooth_vel function
-        # untill randLin and randLin_n matches
-        if not(randLin == randLin_n):
-            randLin_n = smooth_vel(randLin_n, randLin, ramp_timeL, ramp_timeF, rate_step)
-        else:
-            randLin_n = randLin
-
-        if not(randAng_n == randAng):
-            randAng_n = smooth_vel(randAng_n, randAng, ramp_timeL, ramp_timeF, rate_step)
-        else:
-            randAng_n = randAng
-
         # push Twist msgs
-        linear_msg  = Vector3(x=randLin_n, y=float(0.0), z=float(0.0))
-
-        angular_msg = Vector3(x=float(0.0), y=float(0.0), z=randAng_n)
+        linear_msg  = Vector3(x=randLin, y=float(0.0), z=float(0.0))
+        angular_msg = Vector3(x=float(0.0), y=float(0.0), z=randAng)
         publish_msg = Twist(linear=linear_msg, angular=angular_msg)
 
-        ramp_timeL = ramp_timeF
 		# publish Twist
         pub.publish(publish_msg)
         pub = rospy.Publisher("/jackal_velocity_controller/cmd_vel", Twist, queue_size=10)
@@ -210,9 +195,6 @@ def setup():
 # standard ros boilerplate
 if __name__ == "__main__":
     try:
-        # get a new time stamp
-        ramp_timeL = time.time()
-        # initiate the motion script
         setup()
     except rospy.ROSInterruptException:
         pass
