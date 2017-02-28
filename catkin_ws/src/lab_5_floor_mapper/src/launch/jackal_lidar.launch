@@ -14,4 +14,7 @@
    <param name="sicklms/baud" value="38400" />
    <node name="sicklms" type="sicklms" pkg="sicktoolbox_wrapper" />
 
+   <!-- Recording data -->
+   <<node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find lab_5_floor_mapper)/bagfiles/scanned /scan" />
+
 </launch>
