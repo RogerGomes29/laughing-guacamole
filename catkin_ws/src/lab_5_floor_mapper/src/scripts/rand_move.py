@@ -59,8 +59,8 @@ rate_step = 0.10
 # linear accleration and decceleration
 def smooth_vel(vel_before, vel_final, t_before, t_final, rate):
     step = rate*(t_final-t_before)
-    sign = (vel_final > vel_before) ? 1.0 : -1.0
-	error =	math.fabs(vel_final - vel_before)
+    sign = 1.0 if (vel_final > vel_before) else -1.0
+    error =	math.fabs(vel_final - vel_before)
     if error < step:
         return vel_final
     else:
