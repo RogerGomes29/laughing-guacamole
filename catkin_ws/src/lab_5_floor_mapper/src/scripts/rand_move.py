@@ -51,7 +51,7 @@ start_time  =  0
 front_delta = 15
 side_ang    = 30
 side_delta  = 15
-side_thresh = 1
+side_thresh = 1.25
 
 # increment value at each time step
 rate_step = 0.15
@@ -132,14 +132,14 @@ def Callback(data):
     else :
         if leftAve > rightAve :
             angular_min = 0.5 * scale
-            angular_max = 0.5 * scale
+            angular_max = 0.75 * scale
             linear_min  = 0.25 * scale
-            linear_max  = 0.75 * scale
+            linear_max  = 0.5 * scale
         else :
-            angular_min = -0.5 * scale
+            angular_min = -1.0 * scale
             angular_max = -0.5 * scale
             linear_min  = 0.25 * scale
-            linear_max  = 0.75 * scale
+            linear_max  = 0.50 * scale
 
 
 # define setup and run routine
@@ -169,7 +169,7 @@ def setup():
     randLin_n = twist_init.linear.x
     randAng_n = twist_init.angular.z
     # loop
-    while not time.time()-start_time>600:
+    while not time.time()-start_time>330:
         # get a new time stamp
         ramp_timeF = time.time()
         # generate random movement mapping at random interval
@@ -180,7 +180,7 @@ def setup():
             countLimit = random.randrange(5,25)
             randLin = random.uniform(linear_min,linear_max)
             randAng = random.uniform(angular_min,angular_max)
-            randAng_n = 0
+#            randAng_n = 0
 
         # pass linear and angular velocity values to the smooth_vel function
         # untill randLin and randLin_n matches
@@ -189,10 +189,10 @@ def setup():
         else:
             randLin_n = randLin
 
-        if not(randAng == randAng_n):
-            randAng_n = smooth_vel(randAng_n, randAng, ramp_timeL, ramp_timeF, rate_step)
-        else:
-            randAng_n = randAng
+#        if not(randAng == randAng_n):
+#            randAng_n = smooth_vel(randAng_n, randAng, ramp_timeL, ramp_timeF, rate_step)
+#        else:
+#            randAng_n = randAng
 
         # push Twist msgs
         linear_msg  = Vector3(x=randLin_n, y=float(0.0), z=float(0.0))
@@ -206,6 +206,14 @@ def setup():
         pub = rospy.Publisher("/jackal_velocity_controller/cmd_vel", Twist, queue_size=10)
 
         rate.sleep()
+#        launch = roslaunch.scriptapi.ROSLaunch()
+#       launch.start()
+
+#        process = launch.launch(node)
+#        while process.is_alive():
+#            print process.is_alive()
+#        process.stop()
+
 
 
 # standard ros boilerplate
@@ -215,5 +223,6 @@ if __name__ == "__main__":
         ramp_timeL = time.time()
         # initiate the motion script
         setup()
+        rospy.signal_shutdown("Exiting rand_move node!")
     except rospy.ROSInterruptException:
         pass
