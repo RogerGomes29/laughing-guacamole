@@ -54,7 +54,7 @@ side_delta  = 15
 side_thresh = 1
 
 # increment value at each time step
-rate_step_l = 0.15
+rate_step = 0.15
 
 # linear accleration and decceleration
 def smooth_vel(vel_before, vel_final, t_before, t_final, rate):
@@ -144,7 +144,7 @@ def Callback(data):
 
 # define setup and run routine
 def setup():
-    global start_time, rate_step_l, ramp_timeL, rate_step_a
+    global start_time, ramp_timeL, rate_step
     start_time = time.time()
 
     # create node for listening to twist messages
@@ -180,13 +180,19 @@ def setup():
             countLimit = random.randrange(5,25)
             randLin = random.uniform(linear_min,linear_max)
             randAng = random.uniform(angular_min,angular_max)
+            randAng_n = 0
 
         # pass linear and angular velocity values to the smooth_vel function
         # untill randLin and randLin_n matches
-        if not(randLin == randLin_n and randLin_n < linear_max):
-            randLin_n = smooth_vel(randLin_n, randLin, ramp_timeL, ramp_timeF, rate_step_l)
+        if not(randLin == randLin_n):
+            randLin_n = smooth_vel(randLin_n, randLin, ramp_timeL, ramp_timeF, rate_step)
         else:
             randLin_n = randLin
+
+        if not(randAng == randAng_n):
+            randAng_n = smooth_vel(randAng_n, randAng, ramp_timeL, ramp_timeF, rate_step)
+        else:
+            randAng_n = randAng
 
         # push Twist msgs
         linear_msg  = Vector3(x=randLin_n, y=float(0.0), z=float(0.0))
