@@ -4,7 +4,9 @@
 
 #### Working with the Jackal
 
-#####Task for the Project
+*Kindly refer to Project's Wiki page for detailed documentation for this repository*
+
+#####Tasks and Objectives for the project and Status Tracking
 
 0. [x] Connect to a real Jackal and drive it using rviz
 
@@ -18,18 +20,17 @@
 
 0. [x] Driving Jackal (use: sudo apt-get install ros-indigo-jackal-simulator ros-indigo-jackal-desktop)
 
-#### Team starring:
+#### Team Members:
+*Roger Gomes (Team Lead)*
 
-*Deep*
+*Sabari Manohar*
 
-*Sabari*
-
-*Roger*
+*Deep Doshi*
 
 #####Setting Up the Workspace
 ```
 $ cd catkin_ws/src
-$ catkin_init_workspace
+$ catkin_init_workspace 
 $ cd ..
 $ git submodule init
 $ git submodule update
@@ -39,13 +40,7 @@ Finally, the project can be built as follow:
 ```
 $ catkin_make
 $ source devel/setup.bash
-```
-To run project, go to lab_5_floor_mapper
-
-```
-$ catkin_make
-$ source devel/setup.bash
-
 $ roslaunch lab_5_floor_mapper jackal_lidar.launch
-
+$ roslaunch lab_5_floor_mapper replay_map_creater.launch
 ```
+
